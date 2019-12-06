@@ -14,14 +14,17 @@ namespace selenium_practice.Page_Layer
 {
     public class TestUI
     {
+         
         private static IWebDriver driver;
+       
         internal TestUI()
         {
 
             driver = Base_Driver.CreateWebDriver(Base_Driver.WebBrowser.chrome);
             PageFactory.InitElements(driver,this);
-
+            
         }
+       
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Email id for Sign Up']")]
         public IWebElement Emailid_forsignup { get; set; }
 
@@ -101,6 +104,24 @@ namespace selenium_practice.Page_Layer
         [FindsBy(How=How.XPath,Using = "//a[text()='Iframe with in an Iframe']")]
         private IWebElement iframe_within_iframe { get; set; }
 
+        [FindsBy(How=How.XPath,Using = "//a[text()='Widgets']")]
+        private IWebElement  widgettext { get; set; }
+
+        [FindsBy(How=How.XPath,Using = "//a[text()=' AutoComplete ']")]
+        private IWebElement AutoCompletetext { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//input[@type='text' and @class='ui-autocomplete-input']")]
+        private IWebElement AutoCompletetextbox { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[text()=' Datepicker ']")]
+        private IWebElement calendar_control { get; set; }
+
+        [FindsBy(How=How.XPath,Using = "//div[@class='col-xs-1']//img")]
+        private IWebElement cal1 { get; set;}
+
+        [FindsBy(How = How.XPath, Using = "//a[text()=' Slider ']")]
+        private IWebElement slider { get; set; }
+        
         public void do_action()
         {
 
@@ -280,6 +301,53 @@ namespace selenium_practice.Page_Layer
             //driver.SwitchTo().Frame(2);
             //textbox.SendKeys("Rv is on now racing track shona");
 
+        }
+
+
+        public void do_action_on_widget()
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            Move_to_registration();
+            Actions act = new Actions(driver);
+            act.MoveToElement(widgettext).Build().Perform();
+            
+
+
+        }
+        public void do_action_autocomplete()
+        {
+            do_action_on_widget();
+            AutoCompletetext.Click();
+            AutoCompletetextbox.SendKeys("af");
+           IList<IWebElement> getvalue = driver.FindElements(By.XPath("//li[@class='ui-menu-item']//a"));
+            foreach(IWebElement option in getvalue)
+            {
+                if(option.Text=="Afghanistan")
+                {
+                    option.Click();
+                    break;
+                }
+            }
+        }
+
+        public void do_action_date_picker()
+        {
+            do_action_on_widget();
+            calendar_control.Click();
+            cal1.Click();
+
+        }
+        public void do_action_slider()
+        {
+            do_action_on_widget();
+            slider.Click();
+            IWebElement get = driver.FindElement(By.XPath("//div[@id='slider']//a"));
+
+            Actions act = new Actions(driver);
+            act.ClickAndHold(get);
+            act.MoveByOffset(40, 0).Build().Perform();
+            //div[@id='slider']//a
+            //a[text()=' Slider ']
         }
 
     }

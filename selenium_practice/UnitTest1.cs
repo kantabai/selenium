@@ -86,5 +86,25 @@ namespace selenium_practice
         {
             obj.do_action_on_frame();
         }
+        [TestMethod]
+        public void do_action_on_widget()
+        {
+            obj.do_action_on_widget();
+        }
+        [TestMethod]
+        public void do_action_autocomplete()
+        {
+            obj.do_action_autocomplete();
+        }
+        [TestMethod]
+        public void do_action_date_picker()
+        {
+            obj.do_action_date_picker();
+        }
+        [TestMethod]
+        public void do_action_slider()
+        {
+            obj.do_action_slider();
+        }
     }
 }
